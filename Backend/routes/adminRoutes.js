@@ -2,8 +2,10 @@ const express = require('express');
 const adminRouter = express.Router();
 const auth = require('../middleware/auth');
 
-const {adminLogin, getAllBlogs, getAllComments, getDashboard, deleteCommentById, approveCommentById} = require('../controllers/adminController');
+const { adminSignup, adminLogin, getAllBlogs, getAllComments, getDashboard, deleteCommentById, approveCommentById} = require('../controllers/adminController');
 
+
+adminRouter.post('/signup', adminSignup);
 adminRouter.post('/login', adminLogin);
 adminRouter.get('/blogs', auth, getAllBlogs);
 adminRouter.get('/comments', auth, getAllComments);

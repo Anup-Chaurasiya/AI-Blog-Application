@@ -2,25 +2,50 @@
 const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog');
 const Comment = require('../models/comment');
+const Admin = require('../models/admin');
 
+// Admin signup
+const adminSignup = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
+        const existingAdmin = await Admin.findOne({ email });
+        if (existingAdmin) {
+            return res.status(400).json({ success: false, message: 'Admin already exists' });
+        }
+
+        const newAdmin = new Admin({ email, password });
+        await newAdmin.save();
+
+        const token = jwt.sign({ id: newAdmin._id, email: newAdmin.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+        res.status(201).json({ success: true, token, message: 'Admin registered successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+// Admin login
 const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        if (email !== process.env.ADMIN_EMAIL || password !== process.env.ADMIN_PASSWORD) {
-            return res.status(400).json({ success: false, message: 'Email and password are required' });
-        }
+        const admin = await Admin.findOne({ email });
+        if (!admin) return res.status(400).json({ success: false, message: 'Invalid credentials' });
 
-        const token = jwt.sign({ email: email }, process.env.JWT_SECRET);
+        const isMatch = await admin.comparePassword(password);
+        if (!isMatch) return res.status(400).json({ success: false, message: 'Invalid credentials' });
+
+        const token = jwt.sign({ id: admin._id, email: admin.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         res.status(200).json({ success: true, token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Internal server error' });
-
     }
-}
+};
+
 
 const getAllBlogs = async (req, res) => {
     try {
@@ -81,4 +106,4 @@ const approveCommentById = async (req, res) => {
     }
 };
 
-module.exports = { adminLogin, getAllBlogs, getAllComments, getDashboard, deleteCommentById, approveCommentById }
+module.exports = { adminSignup, adminLogin, getAllBlogs, getAllComments, getDashboard, deleteCommentById, approveCommentById }

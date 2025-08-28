@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
   const { setToken } = useAppContext();
-  const navigate = useNavigate(); // ✅ initialize navigate
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,17 +14,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/admin/login", { email, password });
+      const { data } = await axios.post("/api/admin/signup", { email, password });
 
       if (data.token) {
         setToken(data.token);
         localStorage.setItem("token", data.token);
         axios.defaults.headers.common["Authorization"] = `${data.token}`;
-        toast.success("Login successful ✅");
+        toast.success("Signup successful & logged in ✅");
 
-        navigate("/admin"); // ✅ redirect to admin dashboard
+        navigate("/admin");; // redirect to dashboard
       } else {
-        toast.error(data.message || "Login failed ❌");
+        toast.error(data.message || "Signup failed ❌");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
@@ -38,10 +38,10 @@ const Login = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
-            <span className="text-[#7b2cbf]">Admin</span> Login
+            <span className="text-[#7b2cbf]">Admin</span> Signup
           </h1>
           <p className="text-sm text-gray-500 mt-2">
-            Enter your credentials to access the admin panel
+            Create a new admin account
           </p>
         </div>
 
@@ -75,12 +75,23 @@ const Login = () => {
             type="submit"
             className="w-full py-3 font-semibold text-white bg-[#7b2cbf] cursor-pointer rounded-lg shadow-md hover:bg-[#6a21a7] transition-all duration-200"
           >
-            Login
+            Signup
           </button>
         </form>
+
+        {/* Login Link */}
+        <p className="text-center text-sm text-gray-500 mt-4">
+          Already have an account?{" "}
+          <span
+            className="text-[#7b2cbf] cursor-pointer hover:underline"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </span>
+        </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
