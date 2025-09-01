@@ -9,7 +9,7 @@ A modern AI-powered blog platform built with the MERN stack. Generate, read, and
 
 User Authentication: Secure signup & login using JWT.
 
-AI Blog Generation: Create blogs automatically with AI.
+AI Blog Generation: Create blogs description automatically with AI.
 
 CRUD Operations: Create, read, update, and delete posts.
 
@@ -20,6 +20,15 @@ Responsive UI: Mobile-first design with Tailwind CSS.
 🖥️ Demo
 
 Live Demo: [https://ai-blog-application-anup.vercel.app/]
+
+📸 Screenshots
+
+Signup page
+<img width="1920" height="1080" alt="Screenshot (12)" src="https://github.com/user-attachments/assets/a77aac2c-8e96-4902-849d-6d8d2db90cd0" />
+
+Home page
+<img width="1920" height="1080" alt="Blog Application" src="https://github.com/user-attachments/assets/5f974aec-d064-45ae-8e81-8faa2cd14f77" />
+
 
 🛠️ Tech Stack
 
