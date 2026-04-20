@@ -19,7 +19,7 @@ Responsive UI: Mobile-first design with Tailwind CSS.
 
 🖥️ Demo
 
-Live Demo: [https://ai-blog-application-anup.vercel.app/]
+Live Demo: [https://ai-blog-application-fs8h.vercel.app/]
 
 📸 Screenshots
 
